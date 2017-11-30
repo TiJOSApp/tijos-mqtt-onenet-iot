@@ -6,8 +6,6 @@ import net.tijos.gas.base.Listener;
 import tijos.framework.net.mqtt.MqttClient;
 import tijos.framework.net.mqtt.MqttClientListener;
 import tijos.framework.net.mqtt.MqttConnectOptions;
-import tijos.framework.networkcenter.TiDNS;
-import tijos.framework.networkcenter.TiWLAN;
 
 public abstract class MqttService implements MqttClientListener {
 	
@@ -29,13 +27,10 @@ public abstract class MqttService implements MqttClientListener {
 
 	
 	public void start() {
-		//启动WLAN及DNS
-		TiWLAN.getInstance().startup(10000);
-		TiDNS.getInstance().startup();
-				
 		MqttConnectOptions connOpts = new MqttConnectOptions();
         connOpts.setUserName(getUserName());
         connOpts.setPassword(getPassword());
+        connOpts.setCleanSession(false);
         
         //允许自动重新连接
         connOpts.setAutomaticReconnect(isAutomaticReconnect());

@@ -282,7 +282,7 @@ public class Main implements OnLongClickListener, OnClickListener, AlarmListener
 	
 	public static void startNetwork() {
 		//Æô¶¯WLAN¼°DNS
-		TiWLAN.getInstance().startup(10000);
+		TiWLAN.getInstance().startup(10);
 		TiDNS.getInstance().startup();
 	}
 	
