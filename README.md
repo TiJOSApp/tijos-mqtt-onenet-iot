@@ -50,4 +50,8 @@ OneNetApplication：可燃气体监测仪。这是一套安防行业的火灾预
 
 接着打开Eclipse Paho MQTT Utility工具连接至OneNET，在Paho中订阅Alarm、Temperature、Humidity三个topic用于接收监测仪的报警状态和环境温湿度。当监测仪发生报警时通过向topic：Action发送payload消息{"Buzzer":"off"}来关闭蜂鸣器。
 
+![20171130153508](./img/20171130153508.png)
+
+
+
 至此三个工程分别实现了MQTT的接入、订阅和发布功能，以及基于TiJOS的多种传感器的操作。在实际开发中需要将TiJOS接入网络，可通过连接WIFI来实现，具体参考http://dev.tijos.net/stepbystep/step2-device_manager/%E5%88%9D%E8%AF%86Ti-DeviceManager%E8%AE%BE%E5%A4%87%E7%AE%A1%E7%90%86%E5%99%A8/。
