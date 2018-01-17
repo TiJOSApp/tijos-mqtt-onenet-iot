@@ -1,5 +1,7 @@
 package net.tijos.gas;
 
+import java.io.IOException;
+
 import net.tijos.gas.base.GPIO;
 import net.tijos.gas.base.Module;
 import net.tijos.gas.base.Switch;
@@ -13,7 +15,7 @@ import tijos.framework.transducer.relay.TiRelay1CH;
  */
 public class Relay extends Module implements Switch {
 	private TiRelay1CH relay;
-	protected Relay(String name, TiGPIO gpio, GPIO.PIN pin) {
+	protected Relay(String name, TiGPIO gpio, GPIO.PIN pin) throws IOException {
 		super(0, name);
 		
 		relay = new TiRelay1CH(gpio, pin.getPinId(), true);
@@ -22,12 +24,12 @@ public class Relay extends Module implements Switch {
 	}
 
 	@Override
-	public void on() {
+	public void on() throws IOException {
 		relay.turnOn();
 	}
 
 	@Override
-	public void off() {
+	public void off() throws IOException {
 		relay.turnOff();
 	}
 

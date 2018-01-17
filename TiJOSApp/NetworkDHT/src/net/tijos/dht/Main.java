@@ -1,12 +1,14 @@
 package net.tijos.dht;
 
+import java.io.IOException;
+
 import tijos.framework.devicecenter.TiGPIO;
 import tijos.framework.net.mqtt.MqttClient;
 import tijos.framework.net.mqtt.MqttClientListener;
 import tijos.framework.net.mqtt.MqttConnectOptions;
 import tijos.framework.networkcenter.TiDNS;
 import tijos.framework.networkcenter.TiWLAN;
-import tijos.framework.sensor.humiture.TiDHT;
+import tijos.framework.sensor.dht.TiDHT;
 import tijos.util.json.JSONObject;
 
 public class Main implements MqttClientListener {
@@ -26,7 +28,7 @@ public class Main implements MqttClientListener {
 	
 	private TiDHT dht11;
 	
-	public void start() {
+	public void start() throws IOException {
 		
 		TiWLAN.getInstance().startup(10);
 		TiDNS.getInstance().startup();
@@ -132,7 +134,7 @@ public class Main implements MqttClientListener {
 	
 	
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		new Main().start();
 		
 	}

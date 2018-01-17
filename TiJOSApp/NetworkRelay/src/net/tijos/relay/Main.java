@@ -1,5 +1,7 @@
 package net.tijos.relay;
 
+import java.io.IOException;
+
 import tijos.framework.devicecenter.TiGPIO;
 import tijos.framework.net.mqtt.MqttClient;
 import tijos.framework.net.mqtt.MqttClientListener;
@@ -26,7 +28,7 @@ public class Main implements MqttClientListener {
 	
 	private TiRelay1CH relay;
 	
-	public void start() {
+	public void start() throws IOException {
 		
 		TiWLAN.getInstance().startup(10);
 		TiDNS.getInstance().startup();
@@ -77,9 +79,19 @@ public class Main implements MqttClientListener {
 			JSONObject json = new JSONObject(new String(payload).trim());
 			String action = json.getString("action");
 			if ("off".equals(action)) {
-				relay.turnOff();
+				try {
+					relay.turnOff();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}else {
-				relay.turnOn();
+				try {
+					relay.turnOn();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		
@@ -121,7 +133,7 @@ public class Main implements MqttClientListener {
 	
 	
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		new Main().start();
 		
 		

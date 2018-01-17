@@ -1,5 +1,7 @@
 package net.tijos.gas;
 
+import java.io.IOException;
+
 import net.tijos.gas.base.GPIO;
 import net.tijos.gas.base.Module;
 import net.tijos.gas.base.Switch;
@@ -8,7 +10,7 @@ import tijos.framework.transducer.led.TiLED;
 
 public class Led extends Module implements Switch {
 	private TiLED led;
-	protected Led(String name, TiGPIO gpio, GPIO.PIN pin) {
+	protected Led(String name, TiGPIO gpio, GPIO.PIN pin) throws IOException {
 		super(0, name);
 		
 		led = new TiLED(gpio, pin.getPinId());
@@ -16,12 +18,12 @@ public class Led extends Module implements Switch {
 	}
 
 	@Override
-	public void on() {
+	public void on() throws IOException {
 		led.turnOn();
 	}
 
 	@Override
-	public void off() {
+	public void off() throws IOException {
 		led.turnOff();
 	}
 

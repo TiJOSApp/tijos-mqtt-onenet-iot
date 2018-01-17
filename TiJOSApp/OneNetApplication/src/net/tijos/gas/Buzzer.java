@@ -1,5 +1,7 @@
 package net.tijos.gas;
 
+import java.io.IOException;
+
 import net.tijos.gas.base.GPIO;
 import net.tijos.gas.base.modules.Sound;
 import tijos.framework.devicecenter.TiGPIO;
@@ -14,7 +16,7 @@ public class Buzzer extends Sound {
 	
 	private TiBuzzer buzzer;
 
-	protected Buzzer(String name, TiGPIO gpio, GPIO.PIN pin) {
+	protected Buzzer(String name, TiGPIO gpio, GPIO.PIN pin) throws IOException {
 		super(0, name);
 		
 		buzzer = new TiBuzzer(gpio, pin.getPinId(), false);
@@ -22,12 +24,12 @@ public class Buzzer extends Sound {
 	}
 
 	@Override
-	public void play() {
+	public void play() throws IOException {
 		buzzer.turnOn();
 	}
 
 	@Override
-	public void release() {
+	public void release() throws IOException {
 		buzzer.turnOff();
 	}
 

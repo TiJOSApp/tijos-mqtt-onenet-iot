@@ -1,5 +1,7 @@
 package net.tijos.gas;
 
+import java.io.IOException;
+
 import net.tijos.gas.base.GPIO;
 import net.tijos.gas.base.modules.Button;
 import tijos.framework.devicecenter.TiGPIO;
@@ -45,7 +47,7 @@ public class ResetButton extends Button implements ITiButtonEventListener {
 		}
 	};
 
-	protected ResetButton(String name, TiGPIO gpio, GPIO.PIN pin) {
+	protected ResetButton(String name, TiGPIO gpio, GPIO.PIN pin) throws IOException {
 		super(0, name);
 		
 		btn = new TiButton(gpio, pin.getPinId());
