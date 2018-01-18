@@ -1,12 +1,14 @@
 package net.tijos.gas;
 
+import java.io.IOException;
+
 import net.tijos.gas.base.Collector;
 import net.tijos.gas.base.GPIO;
 import net.tijos.gas.base.Hygrometer;
 import net.tijos.gas.base.Listener;
 import net.tijos.gas.base.Thermometer;
 import tijos.framework.devicecenter.TiGPIO;
-import tijos.framework.sensor.humiture.TiDHT;
+import tijos.framework.sensor.dht.TiDHT;
 
 /**
  * ÎÂÊª¶È¼Æ
@@ -23,7 +25,7 @@ public class DHT extends Collector implements Hygrometer, Thermometer, Runnable 
 	private double lastTemperature;
 	private double lastHumidity;
 
-	protected DHT(String name, TiGPIO gpio, GPIO.PIN pin) {
+	protected DHT(String name, TiGPIO gpio, GPIO.PIN pin) throws IOException {
 		super(0, name);
 		dht11 = new TiDHT(gpio, pin.getPinId());
 	}
@@ -39,7 +41,7 @@ public class DHT extends Collector implements Hygrometer, Thermometer, Runnable 
 	}
 
 	@Override
-	public void start() {
+	public void start() throws IOException {
 		dht11.measure();
 		
 		lastTemperature = dht11.getTemperature();
@@ -70,7 +72,11 @@ public class DHT extends Collector implements Hygrometer, Thermometer, Runnable 
 	@Override
 	public void run() {
 		while (true) {
-			dht11.measure();
+			try {
+				dht11.measure();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 			
 			if (l != null) {
 				double temperature = dht11.getTemperature();

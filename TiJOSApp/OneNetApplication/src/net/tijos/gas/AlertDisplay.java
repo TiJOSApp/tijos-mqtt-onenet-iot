@@ -1,11 +1,12 @@
 package net.tijos.gas;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
 
 import net.tijos.gas.base.modules.Display;
 import tijos.framework.devicecenter.TiI2CMaster;
-import tijos.framework.transducer.led.TiOLED_UG2864;
+import tijos.framework.transducer.oled.TiOLED_UG2864;
 
 /**
  * Display具体实现类，用于显示各种警告信息、当前温湿度等。
@@ -18,7 +19,7 @@ public class AlertDisplay extends Display implements Runnable {
 	private LinkedList<Wrapper> printQueue = new LinkedList<Wrapper>();
 	private TiOLED_UG2864 oled;
 	
-	protected AlertDisplay(String name, TiI2CMaster i2c, int address) {
+	protected AlertDisplay(String name, TiI2CMaster i2c, int address) throws IOException {
 		super(0, name);
 		
 		oled = new TiOLED_UG2864(i2c, address);
@@ -153,7 +154,11 @@ public class AlertDisplay extends Display implements Runnable {
 		clearWrapper();
 		
 		synchronized (oled) {
-			oled.turnOff();
+			try {
+				oled.turnOff();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -195,16 +200,25 @@ public class AlertDisplay extends Display implements Runnable {
 				switch (w.getCmd()) {
 				case Clear:
 					synchronized (oled) {
-						oled.clear();
+						try {
+							oled.clear();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 					}
 					break;
 				case PrintWrite:
 					synchronized (oled) {
-						oled.output(w.getValue());
-						if (w.isWrap()) {
-							int line = oled.getPositionLine();
-							oled.setPosition(++line, 0);
+						try {
+							oled.output(w.getValue());
+							if (w.isWrap()) {
+								int line = oled.getPositionLine();
+								oled.setPosition(++line, 0);
+							}
+						} catch (IOException e) {
+							e.printStackTrace();
 						}
+						
 					}		
 					break;
 				case SetPosition:

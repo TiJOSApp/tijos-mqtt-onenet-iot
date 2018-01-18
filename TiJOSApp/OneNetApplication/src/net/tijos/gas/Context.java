@@ -1,5 +1,6 @@
 package net.tijos.gas;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class Context {
 	
 	private List<Module> modules = new ArrayList<Module>();
 	
-	private Context() {
+	private Context() throws IOException {
 		/*
 		 * 定义使用的TiI2CMaster port和TiGPIO port
 		 */
@@ -101,7 +102,11 @@ public class Context {
 	
 	public static Context getContext() {
 		if (context == null) {
-			context = new Context();
+			try {
+				context = new Context();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		return context;
 	}

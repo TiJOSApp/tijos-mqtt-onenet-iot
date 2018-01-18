@@ -1,5 +1,7 @@
 package net.tijos.gas.base;
 
+import java.io.IOException;
+
 /**
  * 开关抽象类
  * @author Mars 
@@ -7,8 +9,8 @@ package net.tijos.gas.base;
  */
 public interface Switch {
 	
-	public void on();
-	public void off();
+	public void on() throws IOException;
+	public void off() throws IOException;
 	public boolean isOff();
 
 }

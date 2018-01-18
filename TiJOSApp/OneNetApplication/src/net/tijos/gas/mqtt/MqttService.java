@@ -6,8 +6,7 @@ import net.tijos.gas.base.Listener;
 import tijos.framework.net.mqtt.MqttClient;
 import tijos.framework.net.mqtt.MqttClientListener;
 import tijos.framework.net.mqtt.MqttConnectOptions;
-import tijos.framework.networkcenter.TiDNS;
-import tijos.framework.networkcenter.TiWLAN;
+import tijos.framework.net.mqtt.MqttException;
 
 public abstract class MqttService implements MqttClientListener {
 	
@@ -29,14 +28,10 @@ public abstract class MqttService implements MqttClientListener {
 
 	
 	public void start() {
-		//启动WLAN及DNS
-		TiWLAN.getInstance().startup(10000);
-		TiDNS.getInstance().startup();
-				
 		MqttConnectOptions connOpts = new MqttConnectOptions();
         connOpts.setUserName(getUserName());
         connOpts.setPassword(getPassword());
-        
+        connOpts.setCleanSession(false);
         //允许自动重新连接
         connOpts.setAutomaticReconnect(isAutomaticReconnect());
         
@@ -52,14 +47,14 @@ public abstract class MqttService implements MqttClientListener {
 	
 	
 	
-	public void subscribe(String topic, SubscribeListener listener) {
+	public void subscribe(String topic, SubscribeListener listener) throws MqttException {
 		this.listener = listener;
 		
 		mqttClient.subscribe(topic, 1);
 		
 	}
 	
-	public void subscribe(String[] topics, SubscribeListener listener) {
+	public void subscribe(String[] topics, SubscribeListener listener) throws MqttException {
 		this.listener = listener;
 		
 		for (String topic : topics) {
@@ -84,7 +79,11 @@ public abstract class MqttService implements MqttClientListener {
 	
 	
 	public void stop() {
-		mqttClient.disconnect();
+		try {
+			mqttClient.disconnect();
+		} catch (MqttException e) {
+			e.printStackTrace();
+		}
 	}
 
 

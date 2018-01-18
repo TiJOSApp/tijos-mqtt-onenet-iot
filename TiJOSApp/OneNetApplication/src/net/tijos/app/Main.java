@@ -56,7 +56,7 @@ public class Main implements OnLongClickListener, OnClickListener, AlarmListener
 	
 	
 	
-	public void start() {
+	public void start() throws IOException {
 		startNetwork();
 		
 		timeOffset = getNdpOffset();
@@ -144,7 +144,12 @@ public class Main implements OnLongClickListener, OnClickListener, AlarmListener
 
 	@Override
 	public void onClick(Module m) {
-		buzzer.release();
+		try {
+			buzzer.release();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 
@@ -152,23 +157,23 @@ public class Main implements OnLongClickListener, OnClickListener, AlarmListener
 	@Override
 	public void onAlarm(Module m) {
 		System.err.println("onAlarm");
-		
-		buzzer.play();
-		led.on();
-		relay.off();
-		display.setPosition(2, 5);
-		display.print(Messages.Alarm);
-		display.setPosition(3, 3);
-		display.print("WARNING!!! ");
-		
-        JSONObject json = new JSONObject();
-        json.put("requestId", UUID.randomUUID().toString());
-        json.put("Alarm", true);
-        json.put("Timer", System.currentTimeMillis() + timeOffset);
+		try {
+			buzzer.play();
+			led.on();
+			relay.off();
+			display.setPosition(2, 5);
+			display.print(Messages.Alarm);
+			display.setPosition(3, 3);
+			display.print("WARNING!!! ");
+			
+	        JSONObject json = new JSONObject();
+	        json.put("requestId", UUID.randomUUID().toString());
+	        json.put("Alarm", true);
+	        json.put("Timer", System.currentTimeMillis() + timeOffset);
+	        
+	        System.err.println(json.toString());  
         
-        System.err.println(json.toString());  
         
-        try {
 			mqtt.publish(PUB_TOPIC_ALARM, json.toString());
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -184,22 +189,23 @@ public class Main implements OnLongClickListener, OnClickListener, AlarmListener
 	public void onRecovery(Module m) {
 		System.err.println("onRecovery");
 		
-		buzzer.release();
-		led.off();
-		relay.on();
-		display.setPosition(2, 5);
-		display.print("Safe ");
-		display.setPosition(3, 3);
-		display.print("WORKING ^_^");
-		
-		JSONObject json = new JSONObject();
-        json.put("requestId", UUID.randomUUID().toString());
-        json.put("Alarm", false);
-        json.put("Timer", System.currentTimeMillis() + timeOffset);
+		try {
+			buzzer.release();
+			led.off();
+			relay.on();
+			display.setPosition(2, 5);
+			display.print("Safe ");
+			display.setPosition(3, 3);
+			display.print("WORKING ^_^");
+			
+			JSONObject json = new JSONObject();
+	        json.put("requestId", UUID.randomUUID().toString());
+	        json.put("Alarm", false);
+	        json.put("Timer", System.currentTimeMillis() + timeOffset);
+	        
+	        System.err.println(json.toString());  
         
-        System.err.println(json.toString());  
         
-        try {
 			mqtt.publish(PUB_TOPIC_ALARM, json.toString());
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -213,7 +219,7 @@ public class Main implements OnLongClickListener, OnClickListener, AlarmListener
 	
 	
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		
 		new Main().start();
 		
@@ -280,13 +286,13 @@ public class Main implements OnLongClickListener, OnClickListener, AlarmListener
 		
 	}
 	
-	public static void startNetwork() {
+	public static void startNetwork() throws IOException {
 		//Æô¶¯WLAN¼°DNS
-		TiWLAN.getInstance().startup(10000);
+		TiWLAN.getInstance().startup(10);
 		TiDNS.getInstance().startup();
 	}
 	
-	public static long getNdpOffset() {
+	public static long getNdpOffset() throws IOException {
 		NTPUDPClient ntpcli = new NTPUDPClient();
 		long interval = 0;
 		try {
@@ -308,7 +314,11 @@ public class Main implements OnLongClickListener, OnClickListener, AlarmListener
 			JSONObject json = new JSONObject(content);
 			String action = json.getString("Buzzer");
 			if ("off".equals(action)) {
-				buzzer.release();
+				try {
+					buzzer.release();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
