@@ -76,7 +76,7 @@ public class Context {
 		 * 创建TiButton实例button并将gpioPinID7与其绑定
 		 */
 		
-		Display display = new AlertDisplay(ModuleId.AlertDisplay.getName(), i2c, 0x78);
+		Display display = new AlertDisplay(ModuleId.AlertDisplay.getName(), i2c, 0x3c);
 		modules.add(display);
 		
 		Button button = new ResetButton(ModuleId.ResetButton.getName(), gpio, GPIO.PIN.PIN7);
