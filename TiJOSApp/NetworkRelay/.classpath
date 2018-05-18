@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="net.tijos.dev.sdk.TIJOS_FRAMEWORK/TiJOS Runtime Library 2.0"/>
+	<classpathentry kind="con" path="net.tijos.dev.sdk.TIJOS_FRAMEWORK/TiJOS Runtime Library 3.0"/>
+	<classpathentry kind="con" path="net.tijos.dev.sdk.TIJOS_DRIVER_LIBRARY/TiJOS Driver Library"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

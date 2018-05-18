@@ -32,7 +32,7 @@ public class MQ2 extends SmokeDetector implements ITiMQEventListener, Runnable {
 	protected MQ2(String name, TiGPIO gpio, GPIO.PIN pin, TiADC adc) throws IOException {
 		super(0, name);
 		
-		mq = new TiMQ(gpio, pin.getPinId(), adc);		
+		mq = new TiMQ(gpio, pin.getPinId(), adc, 0);		
 	}
 
 	@Override
