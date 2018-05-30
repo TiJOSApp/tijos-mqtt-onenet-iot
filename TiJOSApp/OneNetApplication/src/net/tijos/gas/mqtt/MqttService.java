@@ -3,10 +3,11 @@ package net.tijos.gas.mqtt;
 import java.io.IOException;
 
 import net.tijos.gas.base.Listener;
-import tijos.framework.net.mqtt.MqttClient;
-import tijos.framework.net.mqtt.MqttClientListener;
-import tijos.framework.net.mqtt.MqttConnectOptions;
-import tijos.framework.net.mqtt.MqttException;
+import tijos.framework.networkcenter.mqtt.MqttClient;
+import tijos.framework.networkcenter.mqtt.MqttClientListener;
+import tijos.framework.networkcenter.mqtt.MqttConnectOptions;
+import tijos.framework.networkcenter.mqtt.MqttException;
+
 
 public abstract class MqttService implements MqttClientListener {
 	
